@@ -14,7 +14,6 @@
 Wotr::Wotr(const char* logname) {
   _logname = std::string(logname);
   _offset = 0;
-  _db_counter = 0;
 
   // open wotr valuelog
   if ((_log = open(logname, O_RDWR | O_CREAT | O_APPEND, S_IRWXU)) < 0) {

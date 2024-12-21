@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <fstream>
 
-#include "rocksdb/db.h"
-
 #define STAT_BUF_SIZE (4096)
 
 typedef struct {
@@ -39,9 +37,6 @@ public:
   ssize_t Head();
   int Sync();
 
-  int Register(std::string path);
-  void UnRegister(std::string path);
-  int NumRegistered();
   int StartupRecovery(std::string path, size_t logstart);
 
   int CloseAndDestroy();
@@ -51,11 +46,9 @@ public:
 private:
   std::string _logname;
   int _log; // fd
-  int _db_counter;
+  //  int _db_counter;
   ssize_t _offset;
   std::mutex _lock;
-
-  std::unordered_map<std::string, rocksdb::DB*> _dbs;
 
   int check_bounds(size_t offset); 
   int safe_write(int fd, const char* data, size_t size);
