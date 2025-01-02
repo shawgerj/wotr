@@ -9,6 +9,12 @@
 
 #define STAT_BUF_SIZE (4096)
 
+// used in rocksdb
+struct wotr_ref {
+  size_t offset;
+  size_t len;
+};
+  
 typedef struct {
   size_t ksize;
   size_t vsize;
