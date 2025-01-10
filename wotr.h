@@ -70,6 +70,7 @@ private:
 class WotrIter {
 public:
   WotrIter(Wotr& wotr);
+  ~WotrIter();
 
   void seek(size_t offset);
   void next();

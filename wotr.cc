@@ -174,6 +174,15 @@ WotrIter::WotrIter(Wotr& wotr)
     valid_(false)
 {}
 
+WotrIter::~WotrIter() {
+  if (key_ != nullptr) {
+    free(key_);
+  }
+  if (value_ != nullptr) {
+    free(value_);
+  }
+}
+
 int WotrIter::load_data() {
   if (w.check_bounds(offset_) < 0) {
     std::cout << "wotr iter read out of bounds" << std::endl;
@@ -220,6 +229,10 @@ char* WotrIter::key() {
 
 char* WotrIter::value() {
   return value_;
+}
+
+bool WotrIter::valid() {
+  return valid_;
 }
 
 size_t WotrIter::key_size() {
