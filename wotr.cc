@@ -167,48 +167,69 @@ int Wotr::check_bounds(size_t offset) {
 }
 
 WotrIter::WotrIter(Wotr& wotr)
-  : w(wotr), _offset(0) {}
+  : w(wotr),
+    key_(nullptr),
+    value_(nullptr),
+    offset_(0),
+    valid_(false)
+{}
 
-int WotrIter::read(Entry* entry) {
-  if (w.check_bounds(_offset) < 0) {
+int WotrIter::load_data() {
+  if (w.check_bounds(offset_) < 0) {
     std::cout << "wotr iter read out of bounds" << std::endl;
     return -1;
   }
   
-  w.get_entry(_offset, &current);
-  memcpy(entry, &current, sizeof(Entry));
+  w.get_entry(offset_, &curr_);
+  if ((key_ = (char*)realloc((void*)key_, curr_.ksize)) == NULL) {
+    std::cout << "realloc failed key" << std::endl;
+    return -1;
+  }
+  
+  if ((value_ = (char*)realloc((void*)value_, curr_.vsize)) == NULL) {
+    std::cout << "realloc failed value" << std::endl;
+    return -1;
+  }
+
+  if (pread(w._log, key_, curr_.ksize, curr_.key_offset) < 0) {
+    std::cout << "iter_key pread:" << strerror(errno) << std::endl;
+    return -1;
+  }
+
+  if (pread(w._log, key_, curr_.vsize, curr_.value_offset) < 0) {
+    std::cout << "iter_value pread:" << strerror(errno) << std::endl;
+    return -1;
+  }
+
   return 0;
 }
 
-void WotrIter::set_offset(size_t offset) {
-  _offset = offset;
+void WotrIter::seek(size_t offset) {
+  offset_ = offset;
+  valid_ = (load_data() < 0) ? false : true;
 }
 
-// n.b. always read() between calls to next() to load the entry at _offset
-//      into "current", or this will break. Design could be improved later...
 void WotrIter::next() {
-  _offset += current.size;
+  offset_ += curr_.size;
+  valid_ = (load_data() < 0) ? false : true;
 }
 
-char* WotrIter::read_key() {
-  char* key = (char*)malloc(sizeof(char) * current.ksize);
-  if (pread(w._log, key, current.ksize, current.key_offset) < 0) {
-    std::cout << "read_key: pread error" << strerror(errno) << std::endl;
-    return nullptr;
-  }
-  return key;
+char* WotrIter::key() {
+  return key_;
 }
 
-char* WotrIter::read_value() {
-  char* value = (char*)malloc(sizeof(char) * current.vsize);
-  if (pread(w._log, value, current.vsize, current.value_offset) < 0) {
-    std::cout << "read_value: pread error" << strerror(errno) << std::endl;
-    return nullptr;
-  }
-  return value;
+char* WotrIter::value() {
+  return value_;
+}
 
+size_t WotrIter::key_size() {
+  return curr_.ksize;
+}
+
+size_t WotrIter::value_size() {
+  return curr_.vsize;
 }
 
 uint32_t WotrIter::GetCfID() {
-  return current.cfid;
+  return curr_.cfid;
 }

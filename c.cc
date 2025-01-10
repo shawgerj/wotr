@@ -64,24 +64,32 @@ extern "C" {
     return res;
   }
 
-  int wotr_iter_read(wotr_iter_t* wi, entry_t* e) {
-    return wi->rep->read(e->rep);
+  void wotr_iter_seek(wotr_iter_t* wi, size_t offset) {
+    wi->rep->seek(offset);
   }
 
-  void wotr_iter_set_offset(wotr_iter_t* wi, size_t offset) {
-    wi->rep->set_offset(offset);
+  bool wotr_iter_valid(wotr_iter_t* wi) {
+    wi->rep->valid();
   }
 
   void wotr_iter_next(wotr_iter_t* wi) {
     wi->rep->next();
   }
 
-  char* wotr_iter_read_key(wotr_iter_t* wi) {
-    return wi->rep->read_key();
+  char* wotr_iter_key(wotr_iter_t* wi) {
+    return wi->rep->key();
   }
 
-  char* wotr_iter_read_value(wotr_iter_t* wi) {
-    return wi->rep->read_value();
+  char* wotr_iter_value(wotr_iter_t* wi) {
+    return wi->rep->value();
+  }
+
+  size_t wotr_iter_key_size(wotr_iter_t* wi) {
+    return wi->rep->key_size();
+  }
+
+  size_t wotr_iter_value_size(wotr_iter_t* wi) {
+    return wi->rep->value_size();
   }
 
   int wotr_iter_get_cfid(wotr_iter_t* wi) {

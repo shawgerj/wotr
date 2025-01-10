@@ -72,17 +72,26 @@ public:
   WotrIter(Wotr& wotr);
 
   int read(Entry* entry);
-  void set_offset(size_t offset);
+  void seek(size_t offset);
   void next();
+  bool valid();
 
-  char* read_key();
-  char* read_value();
+  char* key();
+  char* value();
+  size_t key_size();
+  size_t value_size();
+
   uint32_t GetCfID();
 
 private:
   Wotr& w;
-  Entry current;
-  size_t _offset;
+  Entry curr_; // header of the current entry
+  char* key_;
+  char* value_;
+  size_t offset_;
+  bool valid_;
+
+  int load_data();
 };
 
 #endif // WOTR_H

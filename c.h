@@ -45,16 +45,25 @@ extern WOTR_LIBRARY_API
 int wotr_iter_read(wotr_iter_t* wi, entry_t* e);
 
 extern WOTR_LIBRARY_API
-void wotr_iter_set_offset(wotr_iter_t* wi, size_t offset);
+void wotr_iter_seek(wotr_iter_t* wi, size_t offset);
 
 extern WOTR_LIBRARY_API
 void wotr_iter_next(wotr_iter_t* wi);
 
 extern WOTR_LIBRARY_API
-char* wotr_iter_read_key(wotr_iter_t* wi);
+bool wotr_iter_vaid(wotr_iter_t* wi);
 
 extern WOTR_LIBRARY_API
-char* wotr_iter_read_value(wotr_iter_t* wi);
+char* wotr_iter_key(wotr_iter_t* wi);
+
+extern WOTR_LIBRARY_API
+char* wotr_iter_value(wotr_iter_t* wi);
+
+extern WOTR_LIBRARY_API
+size_t wotr_iter_key_size(wotr_iter_t* wi);
+
+extern WOTR_LIBRARY_API
+size_t wotr_iter_value_size(wotr_iter_t* wi);
 
 extern WOTR_LIBRARY_API
 int wotr_iter_get_cfid(wotr_iter_t* wi);
