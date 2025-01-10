@@ -48,7 +48,7 @@ extern WOTR_LIBRARY_API
 void wotr_iter_next(wotr_iter_t* wi);
 
 extern WOTR_LIBRARY_API
-bool wotr_iter_valid(wotr_iter_t* wi);
+int wotr_iter_valid(wotr_iter_t* wi);
 
 extern WOTR_LIBRARY_API
 char* wotr_iter_key(wotr_iter_t* wi);

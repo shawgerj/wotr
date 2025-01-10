@@ -68,8 +68,12 @@ extern "C" {
     wi->rep->seek(offset);
   }
 
-  bool wotr_iter_valid(wotr_iter_t* wi) {
-    wi->rep->valid();
+  int wotr_iter_valid(wotr_iter_t* wi) {
+    if (wi->rep->valid()) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   void wotr_iter_next(wotr_iter_t* wi) {
