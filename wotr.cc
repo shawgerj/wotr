@@ -205,7 +205,7 @@ int WotrIter::load_data() {
     return -1;
   }
 
-  if (pread(w._log, key_, curr_.vsize, curr_.value_offset) < 0) {
+  if (pread(w._log, value_, curr_.vsize, curr_.value_offset) < 0) {
     std::cout << "iter_value pread:" << strerror(errno) << std::endl;
     return -1;
   }
