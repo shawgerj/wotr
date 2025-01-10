@@ -92,6 +92,10 @@ extern "C" {
     return wi->rep->value_size();
   }
 
+  size_t wotr_iter_position(wotr_iter_t* wi) {
+    return wi->rep->position();
+  }
+
   int wotr_iter_get_cfid(wotr_iter_t* wi) {
     return wi->rep->GetCfID();
   }

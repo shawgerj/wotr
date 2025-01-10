@@ -71,7 +71,6 @@ class WotrIter {
 public:
   WotrIter(Wotr& wotr);
 
-  int read(Entry* entry);
   void seek(size_t offset);
   void next();
   bool valid();
@@ -80,6 +79,7 @@ public:
   char* value();
   size_t key_size();
   size_t value_size();
+  size_t position();
 
   uint32_t GetCfID();
 

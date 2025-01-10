@@ -230,6 +230,10 @@ size_t WotrIter::value_size() {
   return curr_.vsize;
 }
 
+size_t WotrIter::position() {
+  return offset_;
+}
+
 uint32_t WotrIter::GetCfID() {
   return curr_.cfid;
 }
