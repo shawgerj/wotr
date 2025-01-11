@@ -62,6 +62,10 @@ extern "C" {
     return w->rep->Sync();
   }
 
+  int wotr_deallocate(wotr_t* w, size_t start, size_t length) { 
+    return w->rep->Deallocate(start, length);
+  }
+
   void wotr_close(wotr_t* w) {
     delete w->rep;
     delete w;

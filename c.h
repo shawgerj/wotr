@@ -41,6 +41,9 @@ extern WOTR_LIBRARY_API
 int wotr_sync(wotr_t* w);
 
 extern WOTR_LIBRARY_API
+int wotr_deallocate(wotr_t* w, size_t start, size_t length);
+
+extern WOTR_LIBRARY_API
 void wotr_close(wotr_t* w);
 
 extern WOTR_LIBRARY_API

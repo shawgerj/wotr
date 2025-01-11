@@ -44,6 +44,7 @@ public:
   int WotrPGet(size_t offset, char** data, size_t len);
   ssize_t Head();
   int Sync();
+  int Deallocate(size_t start, size_t length);
 
   int StartupRecovery(std::string path, size_t logstart);
 

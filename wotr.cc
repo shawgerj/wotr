@@ -143,6 +143,10 @@ int Wotr::Sync() {
   return fsync(_log);
 }
 
+int Wotr::Deallocate(size_t start, size_t length) {
+  return fallocate(_log, FALLOC_FL_PUNCH_HOLE, start, length);
+}
+
 ssize_t Wotr::Head() {
   std::lock_guard<std::mutex> lock(_lock);
   return _offset;
