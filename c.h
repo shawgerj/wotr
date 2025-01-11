@@ -24,6 +24,11 @@ extern WOTR_LIBRARY_API
 ssize_t wotr_write(wotr_t* w, const char* logdata, size_t len);
 
 extern WOTR_LIBRARY_API
+ssize_t wotr_write_entry(wotr_t* w, const char* key, size_t key_size,
+			 const char* value, size_t value_size,
+			 uint32_t cfid);
+  
+extern WOTR_LIBRARY_API
 int wotr_get(wotr_t* w, size_t offset, char** data, size_t* len);
 
 extern WOTR_LIBRARY_API

@@ -27,6 +27,24 @@ extern "C" {
     std::string data(logdata, len);
     return w->rep->WotrWrite(data);
   }
+
+  ssize_t wotr_write_entry(wotr_t* w, const char* key, size_t key_size,
+			   const char* value, size_t value_size,
+			   uint32_t cfid) {
+    item_header hdr = {
+      .ksize = key_size,
+      .vsize = value_size,
+      .cfid = cfid
+    };
+
+    std::string data;
+    data.reserve(sizeof(item_header) + key_size +  value_size);
+    data.append(reinterpret_cast<char*>(&hdr), sizeof(item_header));
+    data.append(key, key_size);
+    data.append(value, value_size);
+    
+    return w->rep->WotrWrite(data);
+  }
   
   int wotr_get(wotr_t* w, size_t offset, char** data, size_t* len) {
     return w->rep->WotrGet(offset, data, len);

@@ -38,6 +38,8 @@ public:
   Wotr (const char* logname);
 
   ssize_t WotrWrite(std::string& logdata);
+  // an Entry-aware right function for garbage collection in tikv
+  // really just here to simplify my rust code... 
   int WotrGet(size_t offset, char** data, size_t* len);
   int WotrPGet(size_t offset, char** data, size_t len);
   ssize_t Head();
