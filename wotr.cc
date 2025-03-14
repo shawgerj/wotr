@@ -106,42 +106,23 @@ ssize_t Wotr::WotrWrite(std::string& logdata) {
 
 // len is set to the length of entire record
 // we modify to the length of data so caller knows how much data was returned
-int Wotr::WotrGet(size_t offset, char** data, size_t* len) {
+int Wotr::WotrGet(size_t offset, char** data, size_t* len, size_t* dataptr) {
   if (check_bounds(offset) < 0) {
     return -1;
   }
 
-  char *vbuf = (char*)malloc(*len * sizeof(char));
-  if (pread(_log, vbuf, *len, (ssize_t)offset) < 0) {
-    std::cout << "wotrpget read value: " << strerror(errno) << std::endl;
+  *data = (char*)malloc(*len * sizeof(char));
+  if (pread(_log, *data, *len, (ssize_t)offset) < 0) {
+    std::cout << "wotrget read value: " << strerror(errno) << std::endl;
     return -1;
   }
-  //  *data = vbuf;
-
   
-  item_header *hdr = (item_header*)vbuf;
-  *data = (char*)malloc(sizeof(char) * (hdr->vsize));
-  memcpy(*data, vbuf + sizeof(item_header) + hdr->ksize, hdr->vsize);
+  item_header *hdr = (item_header*)*data;
+
   *len = hdr->vsize;
-  free(vbuf);
+  *dataptr = sizeof(item_header) + hdr->ksize;
+  
   return 0;
-  // if (get_entry(offset, &entry) != 0) {
-  //   std::cout << "wotrget: problem getting entry" << std::endl;
-  //   return -1;
-  // }
-
-  // char *vbuf = (char*)malloc(entry.vsize * sizeof(char));
-  
-  // if (pread(_log, vbuf, entry.vsize, entry.value_offset) < 0) {
-  //   std::cout << "wotrget: read value: " << strerror(errno) << std::endl;
-  //   std::cout << "attempted offset: " << entry.value_offset << "size: " << entry.vsize << std::endl;
-  //   return -1;
-  // }
-  
-  // *data = vbuf;
-  // *len = entry.vsize;
-
-  // return 0;
 }
 
 int Wotr::WotrPGet(size_t offset, char** data, size_t len) {
@@ -150,7 +131,7 @@ int Wotr::WotrPGet(size_t offset, char** data, size_t len) {
     std::cout << "wotrpget read value: " << strerror(errno) << std::endl;
     return -1;
   }
-  //  *data = vbuf;
+
   return 0;
 }
 
