@@ -46,8 +46,8 @@ extern "C" {
     return w->rep->WotrWrite(data);
   }
   
-  int wotr_get(wotr_t* w, size_t offset, char** data, size_t* len) {
-    return w->rep->WotrGet(offset, data, len);
+  int wotr_get(wotr_t* w, size_t offset, char** data, size_t* len, size_t* dataptr) {
+    return w->rep->WotrGet(offset, data, len, dataptr);
   }
 
   int wotr_p_get(wotr_t* w, size_t offset, char** data, size_t len) {
