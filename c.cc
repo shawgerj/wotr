@@ -47,7 +47,7 @@ extern "C" {
   }
   
   int wotr_get(wotr_t* w, size_t offset, char** data, size_t len) {
-    return w->rep->WotrGet(offset, data, len, dataptr);
+    return w->rep->WotrGet(offset, data, len);
   }
 
   ssize_t wotr_head(wotr_t* w) {
