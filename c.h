@@ -29,10 +29,7 @@ ssize_t wotr_write_entry(wotr_t* w, const char* key, size_t key_size,
 			 uint32_t cfid);
   
 extern WOTR_LIBRARY_API
-int wotr_get(wotr_t* w, size_t offset, char** data, size_t* len, size_t* dataptr);
-
-extern WOTR_LIBRARY_API
-int wotr_p_get(wotr_t* w, size_t offset, char** data, size_t len);
+int wotr_get(wotr_t* w, size_t offset, char** data, size_t len);
 
 extern WOTR_LIBRARY_API
 ssize_t wotr_head(wotr_t* w);

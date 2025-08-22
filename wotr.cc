@@ -104,31 +104,11 @@ ssize_t Wotr::WotrWrite(std::string& logdata) {
   return ret;
 }
 
-// len is set to the length of entire record
-// we modify to the length of data so caller knows how much data was returned
-int Wotr::WotrGet(size_t offset, char** data, size_t* len, size_t* dataptr) {
-  if (check_bounds(offset) < 0) {
-    return -1;
-  }
-
-  *data = (char*)malloc(*len * sizeof(char));
-  if (pread(_log, *data, *len, (ssize_t)offset) < 0) {
-    std::cout << "wotrget read value: " << strerror(errno) << std::endl;
-    return -1;
-  }
-  
-  item_header *hdr = (item_header*)*data;
-
-  *len = hdr->vsize;
-  *dataptr = sizeof(item_header) + hdr->ksize;
-  
-  return 0;
-}
-
-int Wotr::WotrPGet(size_t offset, char** data, size_t len) {
+// offset and length always refer to the value stored in the log (not key or header)
+int Wotr::WotrGet(size_t offset, char** data, size_t len) {
   *data = (char*)malloc(len * sizeof(char));
   if (pread(_log, *data, len, (ssize_t)offset) < 0) {
-    std::cout << "wotrpget read value: " << strerror(errno) << std::endl;
+    std::cout << "wotrget read value: " << strerror(errno) << std::endl;
     return -1;
   }
 

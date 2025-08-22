@@ -40,8 +40,7 @@ public:
   ssize_t WotrWrite(std::string& logdata);
   // an Entry-aware right function for garbage collection in tikv
   // really just here to simplify my rust code... 
-  int WotrGet(size_t offset, char** data, size_t* len, size_t* dataptr);
-  int WotrPGet(size_t offset, char** data, size_t len);
+  int WotrGet(size_t offset, char** data, size_t len);
   ssize_t Head();
   int Sync();
   int Deallocate(size_t start, size_t length);
