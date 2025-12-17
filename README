@@ -1,0 +1,12 @@
+This project is built using CMake. Build tooling in rust-rocksdb
+should take care of all this when building the whole project, but it
+can be useful to build manually if testing RocksDB+XLL in isolation.
+
+mkdir build
+cd build
+cmake ..
+make
+
+The project was renamed at some point from WOTR to XLL... hence the
+different names here.
+
